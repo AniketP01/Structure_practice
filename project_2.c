@@ -32,8 +32,11 @@ void showBookInfo(book *, int);              // case 6
 int findNext(book *, book *, int, int *);    // case 6
 int nextelement(book *, book *, int, int *); // case 6
 
-int i,
-    m, flag = 0, smallest, next; // i for index and m for added books to access into all functions
+int i, /*i for index and m for added books to access into all functions*/
+m/*taken to store the number of books added dynamically */,
+flag = 0/*flag used int the case 6 fun to make sure that it is dynamically taken book or initialised one */,
+smallest,/*store  the smallest accession number of the book */
+ next;//store the sec smallest accession number of the book
 int main()
 {
     book *b1 = NULL; /*for case 2*/
@@ -58,11 +61,12 @@ int main()
         {
         case 1:
         {
-            display_all_books(b);
+            display_all_books(b);// display all the avaible books in library
             break;
         }
         case 2:
         {
+            // add some books in library
             printf("Enter the Number of books to be donate:");
             scanf("%d", &m);
             b1 = (book *)malloc(m * sizeof(book));
@@ -72,6 +76,7 @@ int main()
         }
         case 3:
         {
+            //searches the books accoding to author name in library
             char Author[20];
             printf("\n\n\t\tEnter the author name to search : ");
             fflush(stdin);
@@ -81,6 +86,7 @@ int main()
         }
         case 4:
         {
+            // searches books according to title of the book
             char title[20];
             printf("\n\n\t\tEnter the Title of book to search : ");
             fflush(stdin);
@@ -90,11 +96,13 @@ int main()
         }
         case 5:
         {
+            //number of books available in the library
             printf("\n\n\t\t\t\t\tThere are %d book available in this library.", AVAILABLEBOOKS + m);
             break;
         }
         case 6:
         {
+            // sorting the books according to their accession number
             sortByaceessonNumber(b, b1, m);
             printf("\n\n\t\tAll Books are sorted according to accession number as : \n");
             sortedbooks(b, b1, m);
@@ -127,7 +135,7 @@ void store_book_info_in_library(book *b1, book *b, int n)
         scanf("%d", &b1[i].accession_no);
         int j = 0, k = i - 1;
         while (j < AVAILABLEBOOKS)
-        {
+        {//if the accession number already availble then takes another 
             if ((b1[i].accession_no == b[j].accession_no) || (b1[i].accession_no == b1[k].accession_no))
             {
                 printf("Accession slot Not available.Please Enter another one");
@@ -155,6 +163,7 @@ void store_book_info_in_library(book *b1, book *b, int n)
 }
 void display_added_books(book *b1, int m)
 {
+    // displays all added books 
     for (i = 0; i < m; i++)
     {
         printf("\n\n\n\tAccession No. : %d", b1[i].accession_no);
@@ -164,6 +173,7 @@ void display_added_books(book *b1, int m)
         printf("\n\n");
     }
 }
+//function to search  the books according to author 
 void booksByauthor(book *b, book *b1, char *author, int m)
 {
     int flag = 0;
@@ -196,6 +206,7 @@ void booksByauthor(book *b, book *b1, char *author, int m)
     if (flag == 0)
         printf("\n\n\t\t\tNo any book from %s present here", author);
 }
+//function to search  the books according to title of the book
 void booksBytitle(book *b, book *b1, char *title, int m)
 {
     int flag = 0;
@@ -231,6 +242,7 @@ void booksBytitle(book *b, book *b1, char *title, int m)
     if (flag == 0)
         printf("\n\t\t\t\t\t\t\tUnable to search");
 }
+//these all below functions sort all availble and added books according to the accession number given to them
 void sortByaceessonNumber(book *b, book *b1, int m)
 {
     book temp;
@@ -258,7 +270,7 @@ void sortedbooks(book *b, book *b1, int m)
         showBookInfo(b1, a);
         int d = findNext(b, b1, m, &flag);
         showBookInfo(b1, d);
-        while (j++ < (total - 2))
+        while (j++ < (total - 2))//alredy two books are printed above hence -2
         {
             smallest = next;
             int c = nextelement(b, b1, m, &flag);
@@ -277,7 +289,7 @@ void sortedbooks(book *b, book *b1, int m)
         }
     }
 }
-
+// to find the minimum accession number of the book 
 int findmin(book *b, book *b1, int m, int *flag)
 {
     int min = b[0].accession_no;
@@ -304,6 +316,7 @@ int findmin(book *b, book *b1, int m, int *flag)
     }
     return a;
 }
+// to find the second smallest accession number of the books
 int findNext(book *b, book *b1, int m, int *flag)
 {
     int j, q, a;
@@ -331,6 +344,7 @@ int findNext(book *b, book *b1, int m, int *flag)
     }
     return a;
 }
+// to search the next bigger accession number of the book and passes to another fun 
 int nextelement(book *b, book *b1, int m, int *f)
 {
     int j, q, a;
@@ -358,6 +372,7 @@ int nextelement(book *b, book *b1, int m, int *f)
     }
     return a;
 }
+//this fun prints the indivdual books 
 void showBookInfo(book *b1, int x)
 {
     if (flag == 1)
